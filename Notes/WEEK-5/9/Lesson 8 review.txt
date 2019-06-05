@@ -1,0 +1,15 @@
+https://s3.amazonaws.com/video.udacity-data.com/topher/2018/October/5bbba0a4_screen-shot-2018-10-05-at-12.55.32-pm/screen-shot-2018-10-05-at-12.55.32-pm.png
+
+A Thunk Action Creator returns a function that will be passed store.dispatch and store.getState when it's invoked.
+
+Reducers are pure functions. According to the Redux documentation, reducers should never:
+
+Mutate its arguments
+Perform side effects like API calls and routing transitions
+Call non-pure functions, e.g. Date.now() or Math.random()
+Other things to note about reducers:
+
+Reducers should return the previous state in the default case.
+Each reducer should manage an individual slice of data.
+The combineReducers helper function turns an object whose values are different reducing functions into a single reducing function you can pass to createStore.
+Middleware provides a third-party extension point between dispatching an action, and the moment it reaches the reducer. Thunks are executed in the order they are provided in the applyMiddleware function.

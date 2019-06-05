@@ -1,0 +1,289 @@
+Managing more State
+----------------------
+
+As of right now, our code is handling the ADD_TODO action. There are still a couple more actions that our app is supposed to be able to handle:
+
+the REMOVE_TODO action
+the TOGGLE_TODO action
+
+
+IMP
+-----
+https://youtu.be/a3giVoHKkHE
+https://youtu.be/Yqeks3OSY6M
+
+
+
+
+Recap of New Actions
+Our app can not only handle adding todo items -- it can now handle removing a todo item, as well as toggling a todo item (as complete or incomplete)! To make this all possible, we updated our todos reducer to be able to respond to actions of the type REMOVE_TODO and TOGGLE_TODO.
+
+Before moving on, let's make sure we're on the same page on how this was all implemented. Our todos reducer originally looked like the following:
+
+function todos (state = [], action) {
+  if (action.type === 'ADD_TODO') {
+    return state.concat([action.todo]);
+  }
+
+  return state;
+}
+To resolve additional action types, we added a few more conditions to our reducer logic:
+
+function todos (state = [], action) {
+  if (action.type === 'ADD_TODO') {
+    return state.concat([action.todo]);
+  } else if (action.type === 'REMOVE_TODO') {
+    // ...
+  } else if (action.type === 'TOGGLE_TODO') {
+    // ...
+  } else {
+    return state;
+  }
+}
+Note that just like the original todos reducer, we simply return the original state if the reducer receives an action type that it's not concerned with.
+
+To remove a todo item, we called filter() on the state. This returns a new state (an array) with only todo items whose id's do not match the id of the todo we want to remove:
+
+function todos (state = [], action) {
+  if (action.type === 'ADD_TODO') {
+    return state.concat([action.todo]);
+  } else if (action.type === 'REMOVE_TODO') {
+    return state.filter((todo) => todo.id !== action.id);
+  } else if (action.type === 'TOGGLE_TODO') {
+    // ...
+  } else {
+    return state;
+  }
+}
+To handle toggling a todo item, we want to change the value of the complete property on whatever id is passed along on the action. We mapped over the entire state, and if todo.id matched action.id, we used Object.assign() to return a new object with merged properties:
+
+function todos (state = [], action) {
+  if (action.type === 'ADD_TODO') {
+    return state.concat([action.todo]);
+  } else if (action.type === 'REMOVE_TODO') {
+    return state.filter((todo) => todo.id !== action.id);
+  } else if (action.type === 'TOGGLE_TODO') {
+    return state.map((todo) => todo.id !== action.id ? todo :
+    Object.assign({}, todo, { complete: !todo.complete }));
+  } else {
+    return state;
+  }
+}
+We then refactored our entire todos reducer to use a switch statement rather than multiple if/else statements:
+
+function todos (state = [], action) {
+  switch(action.type) {
+    case 'ADD_TODO' :
+      return state.concat([action.todo]);
+    case 'REMOVE_TODO' :
+      return state.filter((todo) => todo.id !== action.id);
+    case 'TOGGLE_TODO' :
+      return state.map((todo) => todo.id !== action.id ? todo :
+      Object.assign({}, todo, { complete: !todo.complete }));
+    default :
+      return state;
+  }
+}
+In the above snippet, we matched cases against an expression (i.e., action.type), and executed statements associated with that particular case.
+
+Let's now extend our app with some additional functionality!
+
+
+
+
+
+
+Adding Goals to our App
+------------------------------
+Currently, the app keeps track of a single piece of state - a list of todo items.
+
+Let's make the app a bit more complicated and add in a second piece of state for our app to track - goals.
+
+
+https://youtu.be/kPYmzsY2RAo
+
+
+// Library Code
+function createStore (reducer) {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state.
+  // 3. Listen to changes on the state.
+  // 4. Update the state
+
+  let state
+  let listeners = []
+
+  const getState = () => state
+
+  const subscribe = (listener) => {
+    listeners.push(listener)
+    return () => {
+      listeners = listeners.filter((l) => l !== listener)
+    }
+  }
+
+  const dispatch = (action) => {
+    state = reducer(state, action)
+    listeners.forEach((listener) => listener())
+  }
+
+  return {
+    getState,
+    subscribe,
+    dispatch,
+  }
+}
+
+// App Code
+function todos (state = [], action) {
+  switch(action.type) {
+    case 'ADD_TODO' :
+      return state.concat([action.todo])
+    case 'REMOVE_TODO' :
+      return state.filter((todo) => todo.id !== action.id)
+    case 'TOGGLE_TODO' :
+      return state.map((todo) => todo.id !== action.id ? todo :
+        Object.assign({}, todo, { complete: !todo.complete }))
+    default :
+      return state
+  }
+}
+
+function goals (state = [], action) {
+  switch(action.type) {
+    case 'ADD_GOAL' :
+      return state.concat([action.goal])
+    case 'REMOVE_GOAL' :
+      return state.filter((goal) => goal.id !== action.id)
+    default :
+      return state
+  }
+}
+
+const store = createStore(todos)
+
+store.subscribe(() => {
+  console.log('The new state is: ', store.getState())
+})
+
+store.dispatch({
+  type: 'ADD_TODO',
+  todo: {
+    id: 0,
+    name: 'Learn Redux',
+    complete: false
+  }
+})
+
+I kind of pointed it out at the end of the previous screencast, but we now have two reducer functions:
+
+todos
+goals
+However, the createStore() function we built can only handle a single reducer function:
+
+// createStore takes one reducer function as an argument
+const store = createStore(todos);
+We can't call createStore() passing it two reducer functions:
+
+// this will not work
+const store = createStore(todos, goals);
+So we've got a problem...
+
+
+
+
+https://youtu.be/QTNV7BP7dWs
+
+
+IMP --> ROOT REDUCERS
+------------------------
+https://youtu.be/qL0HB_kmiQ0
+
+
+
+Whenever dispatch is called, we invoke our app function. The app function will then invoke the todos reducer as well as the goals reducer. Those will return their specific portions of the state. And then, the app function will return a state object with a todos property (the value of which is what the todos reducer returned) and a goals property (the value of which is what the goals reducer returned).
+
+function todos (state = [], action) {
+  switch(action.type) {
+    case 'ADD_TODO' :
+      return state.concat([action.todo])
+    case 'REMOVE_TODO' :
+      return state.filter((todo) => todo.id !== action.id)
+    case 'TOGGLE_TODO' :
+      return state.map((todo) => todo.id !== action.id ? todo :
+        Object.assign({}, todo, { complete: !todo.complete }))
+    default :
+      return state
+  }
+}
+
+function goals (state = [], action) {
+  switch(action.type) {
+    case 'ADD_GOAL' :
+      return state.concat([action.goal])
+    case 'REMOVE_GOAL' :
+      return state.filter((goal) => goal.id !== action.id)
+    default :
+      return state
+  }
+}
+
+function app (state = {}, action) {
+  return {
+    todos: todos(state.todos, action),
+    goals: goals(state.goals, action),
+  }
+}
+
+/*
+Passing the root reducer to our store since our createStore function can only take one reducer.
+*/
+
+const store = createStore(app);
+
+
+
+
+Statements that are true.
+---------------------------------------
+
+Reducers must be pure
+
+Though each reducer handles a different slice of state, we must combine reducers into a single reducer to pass to the store
+
+createStore() takes only one reducer argument
+
+Reducers are typically named after the slices of state they manage
+
+
+
+
+
+
+Summary
+--------
+In this section, we bolstered our application to handle a number of different actions as well as an entirely new piece of state! In addition to our app handling the ADD_TODO action, it now handles:
+
+the REMOVE_TODO action
+the TOGGLE_TODO action
+We also created the goals reducer which handles:
+
+an ADD_GOAL action
+a REMOVE_GOAL action
+So our application can now manage the state of our todos and goals, and it can do all of this, predictably!
+
+In the next and final section of this lesson, we'll look at how we can convert some of our existing functionality to follow best practices.
+
+
+
+
+
+
+
+
+
+
+
+
+

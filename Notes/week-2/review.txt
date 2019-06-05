@@ -1,0 +1,29 @@
+Lesson 10 Summary
+Review
+Route Component
+Route takes a path property. If the path matches the URL, then the Route will render some UI.
+
+Example:
+
+<Route path='/create' component={CreateContact} />
+If you want to be able to pass props to a specific component that the router is going to render, you'll need to use Route’s render prop.
+
+Example:
+
+<Route exact path='/' render={() => (
+   <ListContacts contacts={this.state.contacts} onDeleteContact={this.removeContact} />
+)} />
+Forms
+Instead of having the browser handle forms in a default way, we can control the flow ourselves.
+
+Example:
+
+handleSubmit = (e) => {
+   e.preventDefault()
+   const values = serializeForm(e.target, { hash: true })
+
+    if (this.props.onCreateContact) {
+       this.props.onCreateContact(values)
+    }
+}
+We can serialize the form and save it into an object ourselves with the help of the form-serialize package. We can then pass that object up to the parent component.

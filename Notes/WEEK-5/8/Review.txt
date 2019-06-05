@@ -1,0 +1,70 @@
+Review
+In the NewTweet component, the textarea element is a controlled component because its value is controlled by React.
+
+When we submit the form, we dispatch handleAddTweet thunk action creator. We know it's a thunk because handleAddTweet returns a function instead of an object:
+
+export function handleAddTweet (text, replyingTo) {
+   return (dispatch, getState) => {
+      const { authedUser } = getState()
+
+      dispatch(showLoading())
+
+       return saveTweet({
+          text,
+          author: authedUser,
+          replyingTo
+       })
+      .then((tweet) => dispatch(addTweet(tweet)))
+      .then(() => dispatch(hideLoading()))
+   }
+}
+
+
+
+
+
+In our code, we say that actions should hit the thunk middleware and then the logger middleware:
+
+export default applyMiddleware(
+   thunk,
+   logger,
+)
+If Redux Thunk middleware is enabled, any time you attempt to dispatch a function instead of an action object, the middleware will call that function with dispatch method itself as the first argument...[D]ispatching an asynchronous action (really, a series of actions) looks no different than dispatching a single action synchronously to the component. Which is good because components shouldn’t care whether something happens synchronously or asynchronously. We just abstracted that away.
+
+Once the new tweet is saved to our database, we add the tweet to our store and hide the loading bar.
+
+The ADD_TWEET action hits the following code:
+
+...
+case ADD_TWEET :
+   const { tweet } = action
+
+   let replyingTo = {}
+   if (tweet.replyingTo !== null) {
+      replyingTo = {
+         [tweet.replyingTo]: {
+            ...state[tweet.replyingTo],
+            replies: state[tweet.replyingTo].replies.concat([tweet.id])
+         }
+      }
+   }
+
+   return {
+      ...state,
+      [action.tweet.id]: action.tweet,
+      ...replyingTo,
+   }
+...
+A new slice of state is returned and the store is updated. Since the TweetPage component is connected to the store, it gets re-rendered whenever the store changes.
+
+Quick reminder about the spread operator:
+
+var object1 = { name: 'Jane Doe', age: 34, favoriteColor: 'blue' };
+
+var newObject1 = { ...object1, ['favoriteColor']: 'purple'};
+console.log(newObject1)
+//{ name: "Jane Doe", age: 34, favoriteColor: "purple" }
+
+var newObject2 = { ...object1, ['favoriteColor']: 'purple' , ['favoritePet']: 'cat'};
+console.log(newObject2)
+//{ name: "Jane Doe", age: 34, favoriteColor: "purple", favoritePet: "cat" }

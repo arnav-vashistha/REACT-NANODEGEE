@@ -1,0 +1,183 @@
+Create Store: Getting and Listening
+------------------------------------
+In this section, we'll be building the store. If you remember from the previous section, the store has the following information:
+
+1) the state tree
+2) a way to get the state tree
+3) a way to listen and respond to the state changing
+4) a way to update the state
+
+
+index.js
+---------
+
+function createStore () {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state.
+  // 3. Listen to changes on the state.
+  // 4. Update the state
+
+  let state
+
+  const getState = () => state
+
+  return {
+    getState
+  }
+}
+
+https://youtu.be/YqmnAPNCxkQ
+
+
+In this screencast, we started building out the createStore function. Currently, this factory function:
+
+takes in no arguments
+sets up a local (private) variable to hold the state
+sets up a getState() function
+returns an object that publicly exposes the getState() function
+
+
+
+
+function createStore () {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state.
+  // 3. Listen to changes on the state.
+  // 4. Update the state
+
+  let state
+  let listeners = []
+
+  const getState = () => state
+
+  const subscribe = (listener) => {
+    listeners.push(listener)
+    return () => {
+      listeners = listeners.filter((l) => l !== listener)
+    }
+  }
+
+  return {
+    getState,
+    subscribe
+  }
+}
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+Keep in mind that
+
+const subscribe = (listener) => {
+    listeners.push(listener)
+    return () => {
+      listeners = listeners.filter((l) => l !== listener)
+    }
+  }
+is equivalent to the following ES5:
+
+var subscribe = function subscribe(listener) {
+  listeners.push(listener);
+  return function () {
+    listeners = listeners.filter(function (l) {
+      return l !== listener;
+    });
+  };
+};
+
+
+
+RULES
+------
+
+
+
+We've got our first rule!
+
+Only an event can change the state of the store.
+-------------------------------------------------
+
+Ok...well, without knowing what an "event" is, this rule is less than helpful :-\ Fear not, because we're going to look at what events are in this video:
+
+https://youtu.be/4SSkRoVunbI
+
+
+
+
+When an event takes place in a Redux application, we use a plain JavaScript object to keep track of what the specific event was. This object is called an Action.
+
+Let's take another look at an Action:
+
+{
+  type: "ADD_PRODUCT_TO_CART"
+}
+As you can see, an Action is clearly just a plain JavaScript object. What makes this plain JavaScript object special in Redux, is that every Action must have a type property. The purpose of the type property is to let our app (Redux) know exactly what event just took place. This Action tells us that a product was added to the cart. That's incredibly descriptive and quite helpful, isn't it?
+
+Now, since an Action is just a regular object, we can include extra data about the event that took place:
+
+{
+  type: "ADD_PRODUCT_TO_CART",
+  productId: 17
+}
+In this Action, we're including the productId field. Now we know exactly which product was added to the store!
+
+One more note to keep in mind as you build your Action objects: it's better practice to pass as little data as possible in each action. That is, prefer passing the index or ID of a product rather than the entire product object itself.
+
+Action Creators are functions that create/return action objects. For example:
+
+const addItem = item => ({
+  type: ADD_ITEM,
+  item
+});
+or in ES5:
+
+var addItem = function addItem(item) {
+  return {
+    type: ADD_ITEM,
+    item: item
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

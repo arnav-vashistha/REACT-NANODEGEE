@@ -1,0 +1,83 @@
+External Data
+---------------
+
+We're going to use a database to interact with our Todos application. We're simulating the database to keep that aspect of the project less complex. This is the HTML script tag you need to add the database to your application which we'll use in the following video:
+
+<script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
+
+https://youtu.be/diArZ09Mw1U
+
+
+
+TASK
+-----
+
+Add the following behavior to the project:
+
+When the app loads, console.log all of the todos and all of the goals that reside in our fake database.
+
+
+SOLUTION
+---------
+
+class App extends React.Component {
+      componentDidMount () {
+        const { store } = this.props
+        store.subscribe(() => this.forceUpdate())
+
+        Promise.all([
+          API.fetchTodos(),
+          API.fetchGoals()
+        ]).then(([ todos, goals ]) => {
+          console.log('Todos', todos)
+          console.log('Goals', goals)
+        })
+
+
+      }
+      render() {
+        const { store } = this.props
+        const { todos, goals } = store.getState()
+        return (
+          <div>
+            <Todos todos={todos} store={this.props.store} />
+            <Goals goals={goals} store={this.props.store} />
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(
+      <App store={store}/>,
+      document.getElementById('app')
+    )
+
+
+
+
+=> IMP
+--------
+
+See how we're creating and returning a new Promise() object?
+
+In the task above, you could've just fetched all of our todos and then all of our Goals, but that's serial and is just making the user wait an unnecessarily long amount of time. Since the API is Promise-based, we can use Promise.all() to wait until all Promises have resolved before displaying the content to the user.
+
+Promises are asynchronous, and this lesson is all about working with asynchronous data and asynchronous requests. If you're feeling a little unsure about Promises, check out the Promise documentation on MDN or check out our JavaScript Promises course.
+
+
+
+
+https://youtu.be/94ipRgIS9CY
+
+
+
+https://youtu.be/w5fQmGBKn1g
+
+
+
+Summary
+In this section, we looked at how to work with an external API. We added a new action (RECEIVE_DATA), created a new action creator, and built a new reducer...all to handle the different states our app can be in while getting our remote data:
+
+before the app has the data
+while the app is fetching the data
+after the data has been received
+In the next section, we'll look at how to optimistically update the UI based on the API actions that are performed.

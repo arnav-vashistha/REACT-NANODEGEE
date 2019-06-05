@@ -1,0 +1,27 @@
+Controlled Components
+
+Note that the value attribute is set on the <input> element. Since the displayed value will always be the value in the component's state, we can treat state, then, as the "single source of truth" for the form's state.
+
+To recap how user input affects the ListContacts component's own state:
+
+The user enters text into the input field.
+The onChange event listener invokes the updateQuery() function.
+updateQuery() then calls setState(), merging in the new state to update the component's internal state.
+Because its state has changed, the ListContacts component re-renders.
+Let's see how we can leverage this updated state to filter our contacts. To help us with our filtering we'll need the following packages:
+
+escape-string-regexp
+sort-by
+
+
+npm install --save escape-string-regexp sort-by
+
+
+
+Controlled Components Recap
+Controlled components refer to components that render a form, but the "source of truth" for that form state lives inside of the component state rather than inside of the DOM. The benefits of Controlled Components are:
+
+instant input validation
+conditionally disable/enable buttons
+enforce input formats
+In our ListContacts component, not only does the component render a form, but it also controls what happens in that form based on user input. In this case, event handlers update the component's state with the user's search query. And as we've learned: any changes to React state will cause a re-render on the page, effectively displaying our live search results.

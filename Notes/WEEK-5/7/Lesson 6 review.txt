@@ -1,0 +1,66 @@
+Lesson 6 Review
+This is where we left off in the last lesson.
+
+In our app, we need to display a list of tweets on the page. All of the information that we need to display (tweets' text, username, etc.) resides in a fake database (the data is stored in the _DATA.js file). Our app needs to fetch the data and then display it.
+
+In React app, we make async requests from the componentDidMount method (remember that the render method should be pure) and then pass that data to the components that need it.
+
+The main problems that Redux (and the react-redux bindings!) was meant to solve were:
+Propagation of props through the entire component tree.
+Ensuring consistency and predictability of the state across the app.
+Three Principles of Redux
+Single Source of Truth
+The state of your whole application is stored in an object tree within a single store.
+
+State is Read-Only
+The only way to change the state is to emit an action, an object describing what happened.
+
+Changes to the State Tree are Made With Reducers
+To specify how the state tree is transformed by actions, you write pure reducers.
+
+In React/Redux apps, asynchronous code can be handled in various ways.
+
+redux-thunk middleware allows us to write action creators that return functions instead of objects. When we invoke an action creator that returns a function, the redux-thunk middleware executes that function. That function can make API requests and dispatch synchronous actions. In our app:
+
+
+//Thunk action creator. 
+export function handleInitialData () {
+
+   //Return a function instead of an object
+   return (dispatch) => {
+      dispatch(showLoading())
+
+      //Make an API call 
+      return getInitialData()
+         .then(({ users, tweets }) => {
+
+            //Dispatch synchronous actions to update the store
+            dispatch(receiveUsers(users))
+            dispatch(receiveTweets(tweets))
+            dispatch(setAuthedUser(AUTHED_ID))
+            dispatch(hideLoading())
+         })
+     }
+}
+If you need a refresher on asynchronous actions, check out this page of the documentation.
+
+Container components are components that are connected to the store.
+
+By wrapping the root component in Provider, we make the store available to all container components:
+
+<Provider store={store}>
+    <App />
+</Provider>
+Container components can read state from the store and dispatch actions.
+
+Actions describe the users' actions on the data in the app. We can change the state in the store by dispatching actions. Those actions will go through the reducers, and the reducers will return the new state. Actions must have a type property.
+
+Action Creators are functions that create the action objects.
+
+Reducers are pure functions that determine how the store changes in response to an action.
+
+connect() connects a React component to the Redux store. The mapStateToProps() function allows us to specify which state from the store you want passed to your React component, while the mapDispatchToProps() function allows us to bind dispatch to action creators before they ever hit the component.
+
+To determine whether to store a piece of data in the store or in a React component:
+
+Use Redux for state that matters globally or is mutated in complex ways… The rule of thumb is: do whatever is less awkward.

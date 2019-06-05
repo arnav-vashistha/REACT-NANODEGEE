@@ -1,0 +1,61 @@
+Review
+-------
+
+Our Redux Store
+
+https://s3.amazonaws.com/video.udacity-data.com/topher/2018/October/5bb652e9_screen-shot-2018-10-04-at-10.49.59-am/screen-shot-2018-10-04-at-10.49.59-am.png
+
+
+
+The tweets slice of the state in the store will be modified by actions that go through the tweets reducer. The users slice of the state in the store will be modified by actions that go through the users reducer. And, similarly, the authedUser portion of the state in the store will be modified by actions that go through the authedUser reducer.
+
+A Reducer describes how an application's state changes.
+
+Reducers have the following signature:
+
+(previousState, action) => newState
+How the Store Gets Initialized
+.../reducers/tweets.js:
+
+...
+export default function tweets (state = {}, action) {
+...
+}
+.../reducers/users.js:
+
+...
+export default function users (state = {}, action) {
+...
+}
+.../reducers/authedUser.js:
+
+...
+export default function authedUser (state = null, action) {
+...
+}
+.../reducers/index.js:
+
+...
+//Initializing our store
+export default combineReducers({
+  authedUser,
+  users,
+  tweets
+})
+
+
+This is what the store looks like after it's initialized:
+
+
+https://s3.amazonaws.com/video.udacity-data.com/topher/2018/October/5bb65486_screen-shot-2018-10-04-at-10.57.06-am/screen-shot-2018-10-04-at-10.57.06-am.png
+
+
+
+If you're uncertain about why our state gets initialized this way, check our this page ('https://redux.js.org/recipes/structuring-reducers/initializing-state') of the Redux documentation.
+
+Middleware
+Each thing returned by an action creator - be it an action or a function - will go through our thunk middleware. If the thunk middleware sees an action, that action will be sent to the next middleware in line. If it sees a function, the thunk middleware will call that function. That function can contain side effects - such as API calls - and dispatch actions, simple Javascript objects. These dispatched actions will again go to all of the middleware.
+
+
+
+

@@ -1,0 +1,8 @@
+Our state looks like this:
+
+{
+  todos = [],
+  goals = [],
+  loading = true
+}
+A single action type can affect multiple parts of your store. For example, when RECEIVE_DATA is dispatched, we are updating the todos, goals, and loading portions of our state:

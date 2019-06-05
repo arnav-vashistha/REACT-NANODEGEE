@@ -1,0 +1,21 @@
+Review
+The Store
+The store has 3 methods on it:
+
+getState() - used to get the current state from the store
+subscribe() - used to provide a listener function the store will call when the state changes
+dispatch() - used to make changes to the store's state
+Actions
+Actions describe the users' actions on the data in the app. We can change the state in the store by dispatching actions. Those actions will go through the reducers, and the reducers will return the new state. Actions must have a type property.
+
+Action Creators
+Action Creators are functions that create action objects.
+
+Pure Functions
+Always return the same result if the same arguments are passed in.
+Depend only on the arguments passed in to them; they never access values outside of their own scope and the output of a pure function is determined only by its input values.
+Does not produce side effects (e.g. making network requests).
+Pure functions increase state predictability.
+
+Reducers
+Reducers are pure functions. Reducers

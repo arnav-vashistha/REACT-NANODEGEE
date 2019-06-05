@@ -1,0 +1,19 @@
+Review
+The main problems that Redux (and the react-redux bindings!) was meant to solve were:
+
+Propagation of props through the entire component tree.
+Ensuring consistency and predictability of the state across the app.
+According to Dan Abramov, the creator of Redux, we should follow the following principle for determining whether to store a piece of data in the store or in a React component:
+
+"Use Redux for state that matters globally or is mutated in complex ways… The rule of thumb is: do whatever is less awkward."
+
+Presentational Component
+A component that's just responsible for rendering content. Presentational Components are concerned with how things look.
+
+Connected Component/ Container Component
+A component that is responsible for interacting with the store. Container Components are concerned with how things work.
+
+Having both Container Components and Presentational Components in your app help you achieve Separation of Concerns.
+
+Our store contains a tweets property, a users property, and an authedUser property.
+

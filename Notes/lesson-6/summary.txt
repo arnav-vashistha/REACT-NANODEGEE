@@ -1,0 +1,8 @@
+Review
+PropTypes
+PropTypes help us ensure that the props passed to a component are of the correct type. Something to keep in mind:
+
+For performance reasons, propTypes is only checked in development mode.
+
+setState()
+While a component can set its state when it initializes, we expect that state to change over time, usually due to user input. The component is able to change its own internal state using this.setState(). Each time state is changed, React knows and will call render() to re-render the component. This allows for fast, efficient updates to your app's UI.

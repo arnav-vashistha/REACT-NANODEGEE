@@ -1,0 +1,31 @@
+Review
+This is where we left off in this lesson.
+
+The handleInitialData function uses the thunk pattern because we want to make asynchronous requests inside this function.
+
+...
+const AUTHED_ID = 'tylermcginnis'
+
+export function handleInitialData () {
+  return (dispatch) => {
+    dispatch(showLoading())
+
+    //Make an API call
+    return getInitialData()
+      .then(({ users, tweets }) => {
+
+        //Put users tweets in our store
+        dispatch(receiveUsers(users))
+        dispatch(receiveTweets(tweets))
+
+        //Put the authed user in our store
+        dispatch(setAuthedUser(AUTHED_ID))
+
+        //When all of the data is back, hide the loading bar.
+        dispatch(hideLoading())
+      })
+  }
+}
+Remember that the react-redux-loading package exports the loadingBarReducer reducer and provides us with these action creators: showLoading and hideLoading.
+
+Our Dashboard and Tweets components are connected components. That means that when the state of our store changes, the corresponding mapStateToProps function will be called. If mapStateToProps returned shallowly equal values to its last call, then React Redux will skip rendering. If it returned shallowly unequal values, the wrapped component will be re-rendered. It is assumed that mapStateToProps itself is a pure function.

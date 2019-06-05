@@ -1,0 +1,31 @@
+Review
+This is where we left off in the last lesson.
+
+The Store
+----------
+The store has 3 methods on it:
+
+getState() - used to get the current state from the store
+subscribe() - used to provide a listener function the store will call when the state changes
+dispatch() - used to make changes to the store's state
+Reducer
+We can have multiple reducers in our apps. In the example we went through, we had 2 reducers: Todos Reducer and Goals Reducer. Each is responsible for their own slice of the state tree. When we create our store, we have to pass a single reducer to it. To do that, we combine those two reducers:
+
+function rootReducer (state = {}, action) {
+   return {
+      todos: todos(state.todos, action),
+      goals: goals(state.goals, action),
+   }
+}
+Our state is an object that has 2 properties on it:
+
+todos
+goals
+An action is passed to the todos reducer in order to change the todos slice of the store:
+
+todos(state.todos, action)
+An action is passed to the goals reducer in order to change the goals slice of the store:
+
+goals(state.goals, action)
+Actions
+Actions describe the users' actions on the data in the app. We can change the state in the store by dispatching actions. Those actions will go through the reducers, and the reducers will return the new state. Actions must have a type property.

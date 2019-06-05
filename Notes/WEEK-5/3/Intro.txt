@@ -1,0 +1,10 @@
+https://youtu.be/B_DSLj-XyPI
+
+https://youtu.be/tF5ES2V20xY
+
+
+
+
+Check out the project, here: https://tylermcginnis.com/projects/redux-twitter/
+
+Clone the starter code, here: https://github.com/udacity/reactnd-chirper-app

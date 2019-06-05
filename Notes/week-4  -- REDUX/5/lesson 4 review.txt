@@ -1,0 +1,6 @@
+Three Principles of Redux
+---------------------------
+
+Single Source of Truth
+State is Read-Only
+Changes are made with pure functions

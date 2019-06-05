@@ -1,0 +1,22 @@
+https://youtu.be/WysYSogVCAo
+https://youtu.be/GAn1-rLDmYc
+https://youtu.be/Bzn33iPkKDA
+
+
+
+
+More Asynchronous Options
+------------------------------
+The most common requests I get for this course are around more advanced data-fetching topics with Redux. I've resisted because typically they bring in a lot of complexity, while the benefits aren't seen until your data-fetching needs become large enough. With that said, now that you have a solid foundation on Redux and specifically, asynchronous Redux, you'll be in a good position to read up on the different options to decide if any would work best for the type of application you're working on. I encourage to read up on both of the other (popular) options.
+
+Redux Promise - FSA-compliant promise middleware for Redux.
+Redux Saga - An alternative side effect model for Redux apps
+
+
+Summary
+---------
+In this section, we used the thunk library that we installed in the previous section to make our code more singularly-focused and maintainable. We converted the:
+
+Goals code to use thunks
+Todos code to use
+initial data fetching to use thunks

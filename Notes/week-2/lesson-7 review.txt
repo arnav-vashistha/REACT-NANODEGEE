@@ -1,0 +1,12 @@
+Review
+A prop is any input that you pass to a React component.
+Controlled components refer to components that render a form, but the "source of truth" for that form state lives inside of the component state rather than inside of the DOM.
+If your component does not keep track of internal state (i.e., all it really has is just a render() method), you can declare the component as a Stateless Functional Component.
+State is managed internally by the component itself and is meant to change over time, commonly due to user input (e.g., clicking on a button on the page).
+By having a component manage its own state, any time there are changes made to that state, React will know and automatically make the necessary updates to the page.
+React's reconciliation process makes React fast.
+Since state reflects mutable information that ultimately affects rendered output, a component may also update its state throughout its lifecycle using this.setState(). As we've learned, when local state changes, React will trigger a re-render of the component.
+To make sure that state is updated correctly, set the state based on the previous state. For example:
+this.setState((prevState) => ({
+ count: prevState.count + 1
+}))

@@ -1,0 +1,55 @@
+Review
+-------
+
+This is where we left off in the app.
+
+Recap
+Our state has 3 pieces: todos, goals, and loading:
+
+const store = Redux.createStore(Redux.combineReducers({
+  todos,
+  goals,
+  loading,
+}), Redux.applyMiddleware(checker, logger))
+Each of these pieces is is initialized inside of the reducers' parameters:
+
+...
+function todos (state = [], action) {
+...
+}
+...
+ function goals (state = [], action) {
+...
+}
+...
+function loading (state = true, action) {
+...
+}
+...
+Our state looks like this:
+
+{
+  todos = [],
+  goals = [],
+  loading = true
+}
+The render() method inside the App component runs with todos = [], goals = [], and loading = true. Then, the componentDidMount() method runs:
+
+componentDidMount () {
+  const { store } = this.props
+  Promise.all([
+    API.fetchTodos(),
+    API.fetchGoals()
+  ]).then(([ todos, goals ]) => {
+    store.dispatch(receiveDataAction(todos, goals))
+  })
+  store.subscribe(() => this.forceUpdate())
+}
+We're making 2 API requests inside of the componentDidMount() method, which is where we normally make API requests in React apps.
+
+After all of the data is received (API calls have been resolved), we dispatch a RECEIVE_DATA action. Each of our reducers changes its piece of the state based on the RECEIVE_DATA action. (Don't forget - each action goes through all of the reducers.)
+
+
+
+ store.subscribe(() => this.forceUpdate()) makes it so that when the state changes, our App (and its children) are re-rendered.
+

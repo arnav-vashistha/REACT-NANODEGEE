@@ -1,0 +1,19 @@
+The correct usage of combineReducers() can look like:
+
+import { combineReducers } from 'redux';
+import booksReducer from './books_reducer';
+import userReducer from './user_reducer';
+
+const rootReducer = combineReducers({
+    books: booksReducer,
+    users: userReducer
+});
+
+export default rootReducer;
+
+
+
+Summary
+We have replaced the code we wrote in the previous lesson with the actual Redux library code. We saw that swapping out our code with Redux's code didn't change anything with how our application functions or how our app-specific code works. Redux is just a predictable state container.
+
+What's key to understand is that you've already learned 90% of Redux! Everything else from here on out will be handling specific use cases (combining Redux with a React application, how to work with asynchronous data modification, etc.). So we'll be adding more concepts on top of what you know now, so if you feel comfortable with your understanding of Redux, then keep going. If you're a bit hazy on how a specific part works, I definitely recommend you get they hazy bits nailed down now before proceeding on to more complicated content. Feel free to return to the first lesson to review specific Redux functionalities to iron out any confusing parts before moving on.

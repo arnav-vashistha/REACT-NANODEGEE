@@ -1,0 +1,18 @@
+https://youtu.be/IDQnmsAUCdc
+
+https://youtu.be/VkSrgNZ7Jbk
+
+
+Summary
+What's great about React Native development is that it takes much of what you're used to from web development and takes it to native development. Accessing the in-app developer menu allows you to reload your JavaScript code, debug remotely via Developer Tools, and even display an in-app inspector.
+
+To Debug
+All you have to do is shake your phone, or press:
+
+ctrl D in the iOS simulator
+ctrl M in the Android simulator
+To Refresh
+To refresh the app, just:
+
+Double-tap “R” on your keyboard (if using the simulator)
+Shake the phone, then select “Refresh”

@@ -1,0 +1,35 @@
+Review
+Quick React Router Review
+BrowserRouter Component
+BrowserRouter listens for changes in the URL and makes sure that the correct screen shows up when the URL changes.
+
+Doing this:
+
+<BrowserRouter>
+   <App />
+</BrowserRouter>
+will allow us to
+
+use the other components browser-router-dom comes with inside of our app
+listen to the URL so that whenever the url changes, the routing components will be notified of the change
+Link Component
+<Link to="/about">About</Link>
+Users navigate through React apps with the help of the Link Component.
+
+The Link component talks to the BrowserRouter and tells it to update the URL. By passing a to property to the Link component, you tell your app which path to route to.
+
+What if you wanted to pass state to the new route? Instead of passing a string to Links to prop, you can pass it an object like this:
+
+<Link to={{
+ pathname: '/courses',
+ search: '?sort=name',
+ hash: '#the-hash',
+ state: { fromDashboard: true }
+}}>
+ Courses
+</Link>
+NavLink
+A special version of the that will add styling attributes to the rendered element when it matches the current URL.
+
+Route
+Its most basic responsibility is to render some UI when a location matches the route’s path.

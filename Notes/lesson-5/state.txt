@@ -1,0 +1,40 @@
+State
+Earlier in this Lesson, we learned that props refer to attributes from parent components. In the end, props represent "read-only" data that are immutable.
+
+A component's state, on the other hand, represents mutable data that ultimately affects what is rendered on the page. State is managed internally by the component itself and is meant to change over time, commonly due to user input (e.g., clicking on a button on the page).
+
+In this section, we'll see how we can encapsulate the complexity of state management to individual components.
+
+
+?? Class Fields ??
+In the code above, we put the state object directly inside the class...not in a constructor() method!
+
+class User extends React.Component {
+ state = {
+   username: 'Tyler'
+ } 
+}
+...rather than:
+
+class User extends React.Component {
+ constructor(props) {
+   super(props);
+   this.state = {
+     username: 'Tyler'
+   };
+ }
+}
+This is slightly different from Facebook's Setting the Initial State docs.
+
+Having state outside the constructor() means it is a class field, which is a proposal for a new change to the language. It currently isn't supported by JavaScript, but thanks to Babel's fantastic powers of transpiling, we can use it!
+
+
+Here's the commit with the changes made in this video.
+
+?? Props in Initial State ??
+When defining a component's initial state, avoid initializing that state with props. This is an error-prone anti-pattern, since state will only be initialized with props when the component is first created.
+
+this.state = {
+ user: props.user
+}
+In the above example, if props are ever updated, the current state will not change unless the component is "refreshed." Using props to produce a component's initial state also leads to duplication of data, deviating from a dependable "source of truth."

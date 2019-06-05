@@ -1,0 +1,13 @@
+In this lesson, we're going to move away from our application being plain HTML and convert it to being powered by React. To do that, we'll need to add a number of libraries:
+
+react
+react-dom
+babel
+Here are the packages that we'll be adding in the next video:
+
+<script src="https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+
+https://youtu.be/UGxbnapRJnQ

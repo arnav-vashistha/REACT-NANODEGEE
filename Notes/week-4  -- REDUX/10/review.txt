@@ -1,0 +1,47 @@
+Lesson 10 Review
+Review
+dispatch(action)?
+To change the state, you need to dispatch an action. The action will go through all of the app's middleware and then hit the reducers. The reducers will return their piece of the next state. Then, the store's change listeners will be notified.
+
+redux-thunk
+Thunk middleware for Redux.
+
+Thunk middleware under the hood:
+
+const thunk = (store) => (next) => (action) => {
+  if (typeof action === 'function') {
+    return action(store.dispatch)
+  }
+  return next(action)
+}
+Example of using this middleware:
+
+function handleDeleteTodo (todo) {
+  return (dispatch) => {
+    dispatch(removeTodoAction(todo.id))
+      return API.deleteTodo(todo.id)
+        .catch(() => {
+          dispatch(addTodoAction(todo))
+          alert('An error occurred. Try again.')
+        })
+  }
+}
+
+...
+
+const store = Redux.createStore(Redux.combineReducers({
+  todos,
+  goals,
+  loading,
+}), Redux.applyMiddleware(thunk, checker, logger))
+
+...
+
+??Remember middleware executes in the order it is listed in the applyMiddleware() function.
+
+If a web application requires interaction with a server, applying middleware such as thunk helps solve the issue of asynchronous data flow. Thunk middleware allows us to write action creators that return functions rather than objects. Thunks can be used to delay an action dispatch, or to dispatch only if a certain condition is met (e.g., a request is resolved).
+
+Thunks help us achieve:
+
+Greater state predictability - action creators are the source of every change in the state.
+Separation of concerns - components don't need to handle what happens after asynchronous calls.

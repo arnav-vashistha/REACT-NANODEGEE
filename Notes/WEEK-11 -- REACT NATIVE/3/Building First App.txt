@@ -1,0 +1,145 @@
+https://youtu.be/wV7rkkMa5T0
+
+
+If you created your app using create-react-native-app, you may have noticed a graphical UI running in your web browser as well as slightly different information in your terminal. Expo CLI 2.0 powers the latest version of Create React Native App by default. Most of the information in the terminal remains the same, but to start the project, the directions advise to run expo start instead of npm start. If you download or clone the in-class project, you'll see exactly the same information in the terminal as is shown in the videos.
+
+The Environment
+When creating an app with Create React Native App, what type of support should you expect?
+
+ES5 and ES6 support
+Object Spread Operator
+Asynchronous functions
+JSX (this is React, after all!)
+Flow [https://flow.org/]
+Fetch [https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API]
+
+
+
+
+Since we are using purely JavaScript to build mobile apps, this list should come as no surprise! Since Create React Native App ships with Babel, feel free to check out the full list of supported transformations.
+
+Before we start actually building our app, there are some files that are necessary for the project, but aren’t necessary for you to fully understand. Because of this, we’ll just give you the code and you can look over it if you’d like.
+
+All three of these files will live inside of a utils folder. So first, create a folder called utils at the root of your project.
+
+Next, you’re going to create three files inside of your utils folder.
+
+colors.js
+helpers.js
+_calendar.js (make sure to include the underscore!)
+Paste the following code into your utils/colors.js file
+
+// utils/colors.js
+
+export const purple = '#292477'
+export const gray = '#757575'
+export const white = '#fff'
+export const red = '#b71845'
+export const orange = '#f26f28'
+export const blue = '#4e4cb8'
+export const lightPurp = '#7c53c3'
+export const pink = '#b93fb3'
+Next, paste the following code into utils/helpers.js
+
+// utils/helpers.js
+
+export function isBetween (num, x, y) {
+  if (num >= x && num <= y) {
+    return true
+  }
+
+  return false
+}
+
+export function calculateDirection (heading) {
+  let direction = ''
+
+  if (isBetween(heading, 0, 22.5)) {
+    direction = 'North'
+  } else if (isBetween(heading, 22.5, 67.5)) {
+    direction = 'North East'
+  } else if (isBetween(heading, 67.5, 112.5)) {
+    direction = 'East'
+  } else if (isBetween(heading, 112.5, 157.5)) {
+    direction = 'South East'
+  } else if (isBetween(heading, 157.5, 202.5)) {
+    direction = 'South'
+  } else if (isBetween(heading, 202.5, 247.5)) {
+    direction = 'South West'
+  } else if (isBetween(heading, 247.5, 292.5)) {
+    direction = 'West'
+  } else if (isBetween(heading, 292.5, 337.5)) {
+    direction = 'North West'
+  } else if (isBetween(heading, 337.5, 360)) {
+    direction = 'North'
+  } else {
+    direction = 'Calculating'
+  }
+
+  return direction
+}
+
+export function timeToString (time = Date.now()) {
+  const date = new Date(time)
+  const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+  return todayUTC.toISOString().split('T')[0]
+}
+Finally, paste the following code inside of your utils/_calendar.js file.
+
+// utils/_calendar.js
+
+import { AsyncStorage } from 'react-native'
+import { getMetricMetaInfo, timeToString } from './helpers'
+
+export const CALENDAR_STORAGE_KEY = 'UdaciFitness:calendar'
+
+function getRandomNumber (max) {
+  return Math.floor(Math.random() * max) + 0
+}
+
+function setDummyData () {
+  const { run, bike, swim, sleep, eat } = getMetricMetaInfo()
+
+  let dummyData = {}
+  const timestamp = Date.now()
+
+  for (let i = -183; i < 0; i++) {
+    const time = timestamp + i * 24 * 60 * 60 * 1000
+    const strTime = timeToString(time)
+    dummyData[strTime] = getRandomNumber(3) % 2 === 0
+      ? {
+          run: getRandomNumber(run.max),
+          bike: getRandomNumber(bike.max),
+          swim: getRandomNumber(swim.max),
+          sleep: getRandomNumber(sleep.max),
+          eat: getRandomNumber(eat.max),
+        }
+      : null
+  }
+
+  AsyncStorage.setItem(CALENDAR_STORAGE_KEY, JSON.stringify(dummyData))
+
+  return dummyData
+}
+
+function setMissingDates (dates) {
+  const length = Object.keys(dates).length
+  const timestamp = Date.now()
+
+  for (let i = -183; i < 0; i++) {
+    const time = timestamp + i * 24 * 60 * 60 * 1000
+    const strTime = timeToString(time)
+
+    if (typeof dates[strTime] === 'undefined') {
+      dates[strTime] = null
+    }
+  }
+
+  return dates
+}
+
+export function formatCalendarResults (results) {
+  return results === null
+    ? setDummyData()
+    : setMissingDates(JSON.parse(results))
+}

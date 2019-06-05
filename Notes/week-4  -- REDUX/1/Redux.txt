@@ -1,0 +1,69 @@
+ Remember that the main goal of Redux is to make the state management of an application more predictable. 
+
+
+Application data is stored outside the app and is just referenced by the app.
+------------------------------------------------------------------------------
+
+the app appears exactly the same to the end user, however, it's functioning quite differently under the hood. All of the data is stored outside of the UI code and is just referenced from the UI code.
+
+With a change like this, if the data needs to be modified at all, then all of the data is located in one place and needs to be only changed once. Then the areas of the app that are referencing pieces of data, will be updated since the source they're pulling from has changed.
+
+https://youtu.be/IDdb6baBQyo
+
+State Tree
+One of the key points of Redux is that all of the data is stored in a single object called the state tree. But what does a state tree actually look like? Good question! Here's an example:
+
+{
+  recipes: [
+    { … },
+    { … },
+    { … }
+  ],
+  ingredients: [
+    { … },
+    { … },
+    { … },
+    { … },
+    { … },
+    { … }
+  ],
+  products: [
+    { … },
+    { … },
+    { … },
+    { … }
+  ]
+}
+See how all of the data for this imaginary cooking site is stored in a single object? So all of the state (or "application data") for this site is stored in one, single location. This is what we mean when we say "state tree"...it's just all of the data stored in a single object.
+
+
+
+Main things to remember
+-----------------------
+Getting the State
+Listening for changes
+Updating the State
+
+
+
+Store
+------
+contains the Stack Tree and ABOVE Three ways to intract with it.
+
+
+
+
+
+Summary
+--------
+In this lesson, we looked at the data in an application. We saw that in traditional apps, the data is mixed in with the UI and markup. This can lead to hard-to-find bugs where updating the state in one location doesn't update it in every location.
+
+We learned that the main goal that Redux is trying to offer is predictable state management. The way that Redux tries to accomplish this is through having a single state tree. This state tree is an object that stores the entire state for an application. Now that all state is stored in one location, we discovered three ways to interact with it:
+
+getting the state
+listening for changes to the state
+updating the state
+Then we combine the three items above and the state tree object itself into one unit which we called the store. We'll look at creating this store in the next lesson.
+
+
+

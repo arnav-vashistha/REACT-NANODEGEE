@@ -1,0 +1,4 @@
+Components are designed in accordance with the Single Responsibility Principle.
+State is lifted up to the closest common ancestor of the components that need that state.
+Your app should have a single source of truth.
+While a component can set its state when it initializes, we expect that state to change over time, usually due to user input. The component is able to change its own internal state using setState(). Each time state is changed, React knows and will call render() to re-render the component (and its children). This allows for fast, efficient updates to your app's UI.

@@ -1,0 +1,125 @@
+Review
+------------
+
+In order to help minimize bugs in our applications, we should improving the predictability of state inside our apps. The main goal of Redux is to make the state management of an application more predictable. It does this by keeping the state of our app in a single location. This way we can:
+
+easily share state with the different components of our app by referencing it; no need to sync data between different components
+make state changes more predictable; we can set strict rules for how the state can be changed in that single location.
+We're calling that single location the state tree. Here's an example of a state tree:
+
+{
+  recipes: [
+    { … },
+    { … },
+    { … }
+  ],
+  ingredients: [
+    { … },
+    { … },
+    { … },
+    { … },
+    { … },
+    { … }
+  ],
+  products: [
+    { … },
+    { … },
+    { … },
+    { … }
+  ]
+}
+The store has the following information:
+
+the state tree
+a way to get the state tree
+a way to listen and respond to the state changing
+a way to update the state
+
+
+
+
+
+We can't just allow anyone to update the state. To increase the predicability of our state, we will have certain rules of changing the state:
+
+Only an event can change the state of the store.
+The function that returns the new state needs to be a pure function.
+
+
+Pure Functions
+----------------
+Always return the same result if the same arguments are passed in.
+Depend only on the arguments passed in to them; they never access values outside of their own scope and the output of a pure function is determined only by its input values.
+Does not produce side effects (e.g. making network requests).
+Pure functions can increase state predictability.
+
+Here's the code we've written so far:
+
+This is where we left off in the last lesson:
+
+// Library Code 
+
+/* 
+The function receives a reducer function because the user is the one who'd write the reducers whereas the code for the store itself is more like library code.
+*/
+
+function createStore (reducer) {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state.
+  // 3. Listen to changes on the state.
+  // 4. Update the state
+
+   let state
+   let listeners = []
+
+   const getState = () => state
+
+   /*
+   This methods lets us listen to state changes. We pass in a function that we want to run every time the state changes.
+  */
+   const subscribe = (listener) => {
+      listeners.push(listener)
+      return () => {
+         listeners = listeners.filter((l) => l !== listener)
+      }
+   }
+
+/*
+This function updates the state inside of the store. It needs to receive an action that will tell it the specific event that occurred. 
+*/
+   const dispatch = (action) => {
+   //State inside of our store 
+      state = reducer(state, action)
+/*
+Because we just modified the state, we need to loop through our array of listeners (functions we passed into the `subscribe` method) and invoke each one.  
+*/
+    listeners.forEach((listener) => listener())
+  }
+
+   return {
+      getState,
+      subscribe,
+      dispatch,
+   }
+}
+
+/* 
+App Code - this is the code the user may write to decide how the state should change in response to a user action.
+*/
+
+/*
+This is our reducer. It's a pure function that will return a new copy of our state based on the specific action that occurred. The first time this function is invoked, `state` will be undefined. Therefore, we initialize `state` to an empty array.
+*/
+
+function todos (state = [], action) {
+   if (action.type === 'ADD_TODO') {
+   /*
+   Add a new todo item and return a new array that contains all of the old items as well as this new item.
+   */
+      return state.concat([action.todo])
+   }
+   //Otherwise, the state remains the same.
+   return state
+}
+Search or ask questions in Knowledge.
+Ask peers or mentors for help in 

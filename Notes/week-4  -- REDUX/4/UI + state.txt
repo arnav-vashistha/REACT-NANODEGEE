@@ -1,0 +1,58 @@
+https://youtu.be/b9HpVHhDvL4
+
+
+The changes we just added made it so whenever the Todo input field is submitted, it will add a Todo item to the state...and whenever the Goal input field is submitted, it will add a new Goal item to the state.
+
+Let's break this down into the steps that happen. First, we need to listen for when the buttons are clicked; we did this with the plain DOM .addEventListener() method:
+
+document.getElementById('todoBtn').addEventListener('click', addTodo)
+
+document.getElementById('goalBtn').addEventListener('click', addGoal)
+Pressing the #todoBtn will call addTodo which will add the new item to the state:
+
+function addTodo () {
+  const input = document.getElementById('todo')
+  const name = input.value
+  input.value = ''
+
+  store.dispatch(addTodoAction({
+    name,
+    complete: false,
+    id: generateId()
+  }));
+}
+
+This method will extract the information from the input field, reset the input field, and then dispatch an addTodoAction Action Creator with the text that the user typed into the input field.
+
+So we're using the UI to change the state of our store, but these changes are not reflecting the new state visually in the UI. Let's do that, now.
+
+Need to Level Up Your DOM Skills?
+Both the content in the previous video, as well as the content in the following video depend on DOM-manipulation skills.
+
+accessing elements with document.getElementById()
+adding listeners with .addEventListener()
+accessing the .value property on an element
+creating a new element with .createElement()
+adding new content with.appendChild()
+etc.
+
+
+
+
+
+
+https://youtu.be/p3PtYdpqSO0
+https://youtu.be/pJ7wu1rU680
+https://youtu.be/aFYwjb2RSbE
+
+
+
+
+
+
+
+
+
+
+
+

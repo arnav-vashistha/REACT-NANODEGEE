@@ -1,0 +1,19 @@
+A New Middleware: Logging
+Currently, our application is making use of a single middleware: checker. Because we can use multiple middleware functions in a single application, let's create a new middleware function called logger that will log out information about the state and action.
+
+The benefits of this logger() middleware function are huge while developing the application. We'll use this middleware to intercept all dispatch calls and log out what the action is that's being dispatched and what the state changes to after the reducer has run. Being able to see this kind of information will be immensely helpful while we're developing our app. We can use this info to help us know what's going on in our app and to help us track down any pesky bugs that creep in.
+
+
+https://youtu.be/GWrRJOTCfI8
+
+
+Which of the following are true statements about middleware? Select all that apply.
+
+
+
+Redux.applyMiddleware() can accept multiple arguments.
+
+Middleware is optional.
+
+Middleware can be considered a third-party extension point between dispatching and having the action reach the reducer.
+

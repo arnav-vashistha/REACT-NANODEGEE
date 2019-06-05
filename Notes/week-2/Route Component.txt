@@ -1,0 +1,7 @@
+QUIZ QUESTION
+If the browser loads the URL /houses/green, which of the following Routes will match?
+
+Route Component Recap
+The main takeaway from this section is that with a Route component if you want to be able to pass props to a specific component that the router is going to render, you'll need to use Route’s render prop. As you saw, render puts you in charge of rendering the component which in turn allows you to pass any props to the rendered component as you'd like.
+
+In summary, the Route component is a critical piece of building an application with React Router because it's the component which is going to decide which components are rendered based on the current URL path.

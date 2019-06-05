@@ -1,0 +1,17 @@
+Review
+When to Use Refs
+The docs outline a few good use cases for refs:
+
+Managing focus, text selection, or media playback.
+Triggering imperative animations.
+Integrating with third-party DOM libraries.
+This is where we left off in this lesson.
+
+In the code below, we pass the store as a prop to App. We then access that prop inside of the componentDidMount() method. We re-render the Todos component and the Goals component whenever the store changes by doing this: store.subscribe(() => this.forceUpdate()).
+
+
+/*
+INSIDE CODE
+*/
+
+member that the render() has to be a pure function and it runs before componentDidMount()

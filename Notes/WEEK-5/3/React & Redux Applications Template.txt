@@ -1,0 +1,38 @@
+Template for Building React Projects
+-------------------------------------
+
+Planning Stage 
+Step 1 - Draw All of the Views of the App
+We need to determine the look and functionality of each view in your app. One of the best approaches is to draw each view of the app on paper so that you'll have a good idea of what information and data you're planning to have on each page.
+
+Instead of paper and pencil, you can be a bit more digital and use software for creating mockups.
+(https://codingsans.com/blog/mockup-tools)
+ If you were given project specifications, check your mock against them to make sure that you have all of the required features. For the exercises that follow, your can just draw what you're trying to create on paper.
+
+Step 2 - Break Each View Into a Hierarchy of Components
+For this step,
+
+draw boxes around every component; and
+arrange our components into a hierarchy
+Step 3 - Determine What Events Happen in the App
+We need to take a look at what is happening in each component. Let's determine what actions the app or the user is performing on the data. Is the data being set, modified, or deleted?...then we'll need an action to keep track of that event!
+
+Step 4 - Determine What Data Lives in the Store
+Which components will hold their own state? 3) Which components will need to access the redux store?
+
+
+
+
+Project Walkthrough
+----------------------
+
+To help you solidify your understanding of React and Redux, we will do a project walkthrough. The project we'll be building is called “Chirper”. Building this simple Twitter clone will help you practice improving the predictability of an application's state; establishing strict rules for getting, listening, and updating the store; and identifying what state should live inside of Redux and what state should live inside of React components.
+
+As with most things, there is more than one correct way to achieve a successful result. We will be discussing one approach to building a React/Redux project. We encourage you to come up with an approach that works for you. Regardless of the approach you choose, make sure always to plan out your project's architecture before starting to code.
+
+The Importance of Planning Your Project
+Many developers make the mistake of starting to code before they've put any thought into figuring out precisely what their app's architecture should be. This approach results in spending an incredible amount of time debugging, restructuring the code, and sometimes even starting over, completely!
+
+Trust us, planning out your project before starting to code will save you a lot of time later on.
+
+In our Chirper project walkthrough, we'll go over the planning stages as well as the coding stages of the project.

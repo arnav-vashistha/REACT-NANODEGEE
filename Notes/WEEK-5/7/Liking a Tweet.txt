@@ -1,0 +1,59 @@
+Liking a Tweet
+-----------------
+
+In the Planning stage, we figured out that we needed to give the Tweet Component access to the authedUser data for the tweet to correctly show whether the logged in user liked the tweet or not and for the user to reply to tweets. We also figured out that once the user likes or un-likes a tweet, that information needs to be reflected in the store for other components show the correct data.
+
+We’ll need to write an asynchronous action creator since we need to record whether the logged in user liked a tweet not only in the store but also in our database. Redux thunks to the rescue!
+
+
+
+https://s3.amazonaws.com/video.udacity-data.com/topher/2018/March/5abd6f56_untitled-diagram-22/untitled-diagram-22.png
+
+
+
+We can write this as our thunk action creator:
+
+function handleToggleTweet (info) {
+  return (dispatch) => {
+    saveLikeToggle(info)
+    .then(() => {
+      dispatch(toggleTweet(info));
+      })
+    .catch((e) => {
+      console.warn('Error in handleToggleTweet: ', e);
+      alert('There was an error liking the tweet. Try again.');
+  });
+};
+}
+
+Our code only updates the UI once we receive confirmation that the backend update was successful. This can make the app seem laggy.
+
+A common approach to UI updates is Optimistic Updating; updating the UI before the action gets recorded on the backend so it seems more performant. We’ll see that approach in the video below as we build out our Tweet Actions.
+
+
+
+
+https://youtu.be/2YTZZJTs4aw
+
+
+
+Like Tweet Reducer
+Remember that the tweets reducer will determine how the tweets part of the state changes:
+
+https://s3.amazonaws.com/video.udacity-data.com/topher/2018/March/5abd6e49_untitled-diagram-23/untitled-diagram-23.png
+
+
+When liking a tweet (or unliking a tweet), the state for that specific tweet needs to change - either the tweet's like property (which, if you remember, is an array and will contain the names of the users that have liked the tweet) will need to change to include the user that clicked it (if they're liking the tweet) or the user's name will need to be removed from the array (if they're unliking the tweet).
+
+So we need to update the reducer to handle these changes.
+
+
+
+https://youtu.be/bHklEREK6gw
+
+https://youtu.be/hPvYle9FdBk
+
+
+
+
+

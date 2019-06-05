@@ -1,0 +1,13 @@
+Lesson 1 Review
+react-redux
+react-redux gives us an API that simplifies the most common interactions between React and Redux.
+
+Provider makes it possible for Redux to pass data from the store to any React components that needs it. It uses React’s context feature to make this work.
+
+connect() connects a React component to the Redux store.
+
+Signature of the connect() function: connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options]).
+
+The mapStateToProps() function allows us to specify which state from the store you want passed to your React component.
+
+The mapDispatchToProps() function allows us to bind dispatch to action creators before they ever hit the component.

@@ -1,0 +1,26 @@
+Review
+--------
+
+
+Optimistic updates:
+
+toggleItem = (id) => {
+  this.props.store.dispatch(toggleTodoAction(id))
+
+  return API.saveTodoToggle(id)
+    .catch(() => {
+      this.props.store.dispatch(toggleTodoAction(id))
+      alert('An error occurred. Try again.')
+    })
+}
+
+removeItem = (todo) => {
+  this.props.store.dispatch(removeTodoAction(todo.id))
+
+  return API.deleteTodo(todo.id)
+     .catch(() => {
+       this.props.store.dispatch(addTodoAction(todo))
+       alert('An error occurred. Try again.')
+     })
+}
+In these cases, we update the UI before the update succeeds on the server. We roll back to the original state if the API returns an error. Optimistic updates provide a more realistic and dynamic experience to the user.

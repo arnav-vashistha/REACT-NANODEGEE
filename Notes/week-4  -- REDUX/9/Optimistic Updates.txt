@@ -1,0 +1,25 @@
+
+Optimistic Updates
+-------------------
+
+When dealing with asynchronous requests, there will always be some delay involved. If not taken into consideration, this could cause some weird UI issues. For example, let’s say when a user wants to delete a todo item, that whole process from when the user clicks“delete” to when that item is removed from the database takes two seconds. If you designed the UI to wait for the confirmation from the server to remove the item from the list on the client, your user would click “delete” and then would have to wait for two seconds to see that update in the UI. That’s not the best experience.
+
+Instead what you can do is a technique called optimistic updates. Instead of waiting for confirmation from the server, just instantly remove the user from the UI when the user clicks “delete”, then, if the server responds back with an error that the user wasn’t actually deleted, you can add the information back in. This way your user gets that instant feedback from the UI, but, under the hood, the request is still asynchronous.
+
+We’ll see this technique in the upcoming screencasts.
+
+https://youtu.be/l-wRpOTFOys
+
+https://youtu.be/7nicdmL-1k4
+
+https://youtu.be/-uooq_C6jqM
+
+
+
+Summary
+In this section, swapped more functionality over to using the API. We now use the database to:
+
+remove Todos and Goals
+toggle the state of a Todos
+save a new Todo or Goal
+What's important is that for the removing and toggling, we're doing these actions optimistically. So we're assuming the change will succeed correctly on the server, so we update the UI immediately, and then only roll back to the original state if the API returns an error. Doing optimistic updates is better because it provides a more realistic and dynamic experience to the user.

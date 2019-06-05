@@ -1,0 +1,47 @@
+Further Learning
+If you're interested in learning more about React Router, we recommend these two resources. First,
+ 
+Build your own React Router v4 (https://tylermcginnis.com/build-your-own-react-router-v4/)
+
+will walk through how to implement your own mini version of React Router to better understand its implementation details. Next, is React Training's official documentation(https://reacttraining.com/react-router/web/guides/philosophy) for React Router. Feel free to also check out Tyler McGinnis's React Router course (https://tylermcginnis.com/courses/react-router/)as well!
+
+Lesson Challenge
+Read Tyler's Nested routes(https://tylermcginnis.com/react-router-nested-routes/) with React Router v4 blog post and answer the following questions. Share your answers with your classmates.
+
+1) What is the difference between Link and Route?
+
+2) What is the difference between match.path and match.url? Give a use case for each.
+
+3) Create a code example where you (1) pass props to a component that's rendered by React Router and (2) use nested routes.
+
+
+
+
+Course Outro
+
+Keep Learning
+Great work! You've learned how to build applications in React, but there's always more to learn! Check out the following resources to up your skills:
+
+The React Docs
+Tyler's Blog
+People to Follow
+Whether it be popular blog posts or developers to follow on Twitter, a large part of getting everything out of a new technology is utilizing existing community resources. So we want to share with you with our favorite resources from the React community that we've found helpful over the last few years. Hopefully you'll find them helpful as well.
+
+Dan Abramov
+Sebastian Markbåge
+Henry Zhu
+Peggy Rayzis
+Merrick Christensen
+Christopher Chedeau
+React
+Tyler McGinnis
+Blog posts to read
+You're missing the point of React
+React "Aha" Moments
+9 Things every React.js Beginner should know
+React Elements vs React Components
+If you want to learn more advanced topics in React, you can check out tylermcginnis.com.
+
+Thanks for joining us on this journey! Now it's time to move on to learning Redux!
+
+Here's how what you've learned thus far maps to your career:

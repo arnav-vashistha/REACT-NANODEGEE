@@ -1,0 +1,20 @@
+Reminders:
+
+connect() connects a React component to the Redux store.
+
+mapStateToProps() allows us to specify which state from the store you want passed to your React component.
+
+mapDispatchToProps()allows us to bind dispatch to action creators before they ever hit the component.
+
+Redux Middleware provides a third-party extension point between dispatching an action, and the moment it reaches the reducer. People use Redux middleware for logging, crash reporting, talking to an asynchronous API, routing, and more.
+
+We can have multiple reducers in our apps. Each is responsible for their own slice of the state tree. When we create our store, we have to pass a single reducer to it. To do that, we use the combineReducers() function.
+
+Actions
+Actions describe the users' actions on the data in the app. We can change the state in the store by dispatching actions. Those actions will go through the reducers, and the reducers will return the new state. Actions must have a type property.
+
+Action Creators
+Action Creators are functions that create the action objects.
+
+Reducers
+Reducers are pure functions. Reducers

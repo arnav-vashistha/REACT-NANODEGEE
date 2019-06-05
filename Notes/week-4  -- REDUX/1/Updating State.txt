@@ -1,0 +1,196 @@
+Updating State
+---------------
+
+Let's step back one more time and think about what Redux is all about. The whole goal of Redux is to increase predictability:
+
+Redux is a predictable state container for JavaScript apps.
+
+With this in mind, let's see dig into how we can use actions and our state tree to predictably manage an application's state.
+
+https://youtu.be/15sTwJsyWbU
+
+
+And we've got our second rule!
+
+The function that returns the new state needs to be a pure function.
+
+So far, our rules are:
+
+1.) Only an event can change the state of the store.
+2.) The function that returns the new state needs to be a pure function.
+
+A pure function can be a bit theoretical, so we'll take it step by step and explain why a pure function is so powerful and how it helps improve predictability.
+
+https://youtu.be/o9cWPrOMuyU
+
+
+
+What are Pure Functions?
+------------------------
+Pure functions are integral to how state in Redux applications is updated. By definition, pure functions:
+
+Return the same result if the same arguments are passed in
+Depend solely on the arguments passed into them
+Do not produce side effects, such as API requests and I/O operations
+Let’s check out an example of a pure function, square():
+
+// `square()` is a pure function
+
+const square = x => x * x;
+square() is a pure function because it outputs the same value every single time, given that the same argument is passed into it. There is no dependence on any other values to produce that result, and we can safely expect just that result to be returned -- no side effects (more on this in a bit!).
+
+On the other hand, let’s check out an example of an impure function, calculateTip():
+
+// `calculateTip()` is an impure function
+
+const tipPercentage = 0.15;
+const calculateTip = cost => cost * tipPercentage;
+
+calculateTip() calculates and returns a number value. However, it relies on a variable (tipPercentage) that lives outside the function to produce that value. Since it fails one of the requirements of pure functions, calculateTip() is an impure function. However, we could convert this function to a pure function by passing in the outside variable, tipPercentage, as a second argument to this function!
+
+const calculateTip = (cost, tipPercentage = 0.15) => cost * tipPercentage;
+
+Why Pure Functions Are Great
+-------------------------------
+For our purposes, the most important feature of a pure function is that it's predictable. If we have a function that takes in our state and an action that occurred, the function should (if it's pure!) return the exact same result every single time.
+
+You're going to be sick of this by the end ;-) but this course (and Redux!) are all about predictability!
+
+
+What is true about pure functions?
+-------------------------------------
+Pure functions do not rely on information other than the arguments passed in to them to generate an output.
+Pure functions do not depend on external state.
+
+
+https://youtu.be/QU_WvPaC6cM
+
+
+
+
+/* Create A Reducer
+ *
+ * You need to create a reducer called "appReducer" that accepts two arguments:
+ 
+* - First, an array containing information about ice cream 
+ 
+* - Second, an object with a 'DELETE_FLAVOR' `type` key
+ * (i.e., the object contains information to delete the flavor from the state)
+ 
+*
+ * The action your reducer will receive will look like this:
+ * { type: 'DELETE_FLAVOR', flavor: 'Vanilla' }
+ *
+ * And the initial state will look something like this (as such, refrain 
+ * from passing in default values for any parameters!):
+ * [{ flavor: 'Chocolate', count: 36 }, { flavor: 'Vanilla', count: 210 }];
+*/
+ 
+
+
+ function appReducer(state,action){
+  
+   if(action.type === "DELETE_FLAVOR"){
+   
+      return state.filter(val=>(
+         
+    val.flavor !== action.flavor
+             
+         
+    ))
+   
+  }
+   
+ return state;
+
+ }
+ 
+ 
+let action =  { type: 'DELETE_FLAVOR', flavor: 'Vanilla' };
+ 
+let state =  [{ flavor: 'Chocolate', count: 36 }, { flavor: 'Vanilla', count: 210 }];
+ 
+ let newstate = appReducer(state,action);
+ console.log(newstate);
+
+
+
+
+
+IMPORTANT
+------------
+https://youtu.be/z5yJhTOxmMU
+https://youtu.be/wIyRfRSpvDo
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Library Code
+function createStore(reducer) {
+  // The store should have four parts
+  // 1. The state
+  // 2. Get the state.
+  // 3. Listen to changes on the state.
+  // 4. Update the state
+
+  let state
+  let listeners = []
+
+  //gets the current state
+  const getState = () => state
+
+  //takes in functions that will be called when the state changes
+  const subscribe = (listener) => {
+    listeners.push(listener)
+    return () => {
+      listeners = listeners.filter((l) => l !== listener)
+    }
+  }
+
+  //modifies the state
+  const dispatch = (action) => {
+    state = reducer(state, action)
+    listeners.forEach((listener) => listener())
+  }
+
+  return {
+    getState,
+    subscribe,
+    dispatch,
+  }
+}
+
+// App Code
+//REDUCER FUNCTION
+function todos(state = [], action) {
+  if (action.type === 'ADD_TODO') {
+    return state.concat([action.todo])
+  }
+
+  return state
+}
+
+
+
+
+
+The new dispatch() method is pretty small, but is vital to our functioning store code. To briefly recap how the method functions:
+
+dispatch() is called with an Action
+the reducer that was passed to createStore() is called with the current state tree and the action...this updates the state tree
+because the state has (potentially) changed, all listener functions that have been registered with the subscribe() method are called
+Summary
+In this section, we learned about a number of important points about Redux. We learned about pure functions, a Reducer function (which, itself, needs to be a pure function), dispatching changes in our store, and identifying which parts of our code are generic library code and which are specific to our app.
+
+
+
+
+
+
+
+
+
+
+
+

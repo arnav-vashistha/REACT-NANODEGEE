@@ -1,0 +1,14 @@
+Lesson 5 Review
+Let's review some of the most important sections of the react-redux documentation:
+
+<Provider store>
+
+Makes the Redux store available to the connect() calls in the component hierarchy below. Normally, you can’t use connect() without wrapping a parent or ancestor component in .
+
+connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])
+
+Connects a React component to a Redux store...It does not modify the component class passed to it; instead, it returns a new, connected component class for you to use.
+
+[mapStateToProps(state, [ownProps]): stateProps] (Function)
+
+If this argument is specified, the new component will subscribe to Redux store updates. This means that any time the store is updated, mapStateToProps will be called. The results of mapStateToProps must be a plain object, which will be merged into the component’s props. If you don't want to subscribe to store updates, pass null or undefined in place of mapStateToProps.

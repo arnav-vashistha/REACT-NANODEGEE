@@ -1,0 +1,6 @@
+What We're Going to Build
+--------------------------
+Now that we have an index.html file and all of the JavaScript code has been transferred over to script tags, let's start adding in a User Interface. Since our project has two pieces of state, we'll need two areas:
+
+-Todo list area
+-Goals area

@@ -1,0 +1,174 @@
+render() Is For Rendering, Only!
+I just mentioned this in the video, but I want to stress it again - data should not be fetched in the render method! A component's render() method should only be used to render that component; it should not make any HTTP requests, fetch data that's used to display the content, or alter the DOM. The render() method also shouldn't call any other functions that do any of these things, either.
+
+So if render() is only used for displaying content, we put the code that should handle things like Ajax requests in what React calls lifecycle events.
+
+
+
+
+Lifecycle Events
+Lifecycle events are specially named methods in a component. These methods are automatically bound to the component instance, and React will call these methods naturally at certain times during the life of a component. There are a number of different lifecycle events, but here are the most commonly used ones.
+
+componentDidMount()
+
+invoked immediately after the component is inserted into the DOM
+
+componentWillUnmount()
+
+invoked immediately before a component is removed from the DOM
+
+getDerivedStateFromProps()
+
+invoked after a component is instantiated as well as when it receives brand new props
+
+To use one of these, you'd just create a method in your component with the name and React will call it. It's an easy way to hook into different parts of the lifecycle of React components.
+
+The lifecycle event that we'll be looking at (and will be using a lot in our app!) is the componentDidMount() lifecycle event.
+
+You'll sometimes see shouldComponentUpdate() in React apps as well. It returns true by default. This means that whenever a component's state (or its parent's state) is updated, the component re-renders.
+
+The React documentation provides the following guidance for using this lifecycle event:
+
+The default behavior is to re-render on every state change, and in the vast majority of cases you should rely on the default behavior.
+Do not rely on it to “prevent” a rendering, as this can lead to bugs.
+Consider using the built-in PureComponent instead of writing shouldComponentUpdate() by hand.
+We do not recommend doing deep equality checks or using JSON.stringify() in shouldComponentUpdate(). It is very inefficient and will harm performance.
+
+
+
+
+
+How componentDidMount() Works
+If you remember from the previous section, componentDidMount() is the lifecycle hook that is run right after the component is added to the DOM and should be used if you're fetching remote data or doing an Ajax request. Here's what the React docs have to say about it:
+
+componentDidMount() is invoked immediately after a component is mounted. Initialization that requires DOM nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the network request. Setting state in this method will trigger a re-rendering.
+
+Let's take a look at an example User component:
+
+import React, { Component } from 'react';
+import fetchUser from '../utils/UserAPI';
+
+class User extends Component {
+ constructor(props) {
+   super(props);
+
+   this.state = {
+     name: '',
+     age: ''
+   };
+ }
+
+ componentDidMount() {
+   fetchUser().then((user) => this.setState({
+     name: user.name,
+     age: user.age
+   }));
+ }
+
+ render() {
+   return (
+     <div>
+       <p>Name: {this.state.name}</p>
+       <p>Age: {this.state.age}</p>
+     </div>
+   );
+   }
+}
+
+export default User;
+
+You'll notice that this component has a componentDidMount() lifecycle event. This component seems pretty straightforward, but let's walk through the order of how it works:
+
+The render() method is called which updates the page with a <div> that has one paragraph for the name and one paragraph for the age. What's important to realize is that this.state.name and this.state.age are empty strings (at first), so the name and age don't actually display
+Once the component has been mounted, the componentDidMount() lifecycle event occurs
+The fetchUser request from the UserAPI is run which sends a request to the user database
+When the data is returned, setState() is called and updates the name and age properties
+Since the state has changed, render() gets called again. This re-renders the page, but now this.state.name and this.state.age have values
+
+
+
+componentDidMount() Recap
+componentDidMount() is one of a number of lifecycle events that React offers. componentDidMount() gets called after the component is "mounted" (which means after it is rendered). If you need to dynamically fetch data or run an Ajax request, you should do it in componentDidMount().
+
+Further Research
+componentDidMount() from the React Docs
+
+
+
+
+
+
+
+Review
+To recap, lifecycle events are special methods that React provides that allow us to hook into different points in a component's life to run some code. Now, there are a number of different lifecycle events. They will run at different points, but we can break them down into three distinct categories:
+
+Adding to the DOM
+The following lifecycle events will be called in order when a component is being added to the DOM:
+
+constructor()
+getDerivedStateFromProps()
+render()
+componentDidMount()
+??componentWillMount() has been deprecated. ??
+
+As of React 16.3, componentWillMount() has been replaced with UNSAFE_componentWillMount(). Only UNSAFE_componentWillMount() will work starting with React 17.0. UNSAFE_componentWillMount() is now considered to be a legacy method and should not be used in new code.
+
+Re-rendering
+The following lifecycle events will be called in order when a component is re-rendered to the DOM:
+
+getDerivedStateFromProps()
+shouldComponentUpdate()
+render()
+getSnapshotBeforeUpdate()(specific use cases)
+componentDidUpdate()
+??componentWillReceiveProps() and componentWillUpdate() have been deprecated. ??
+
+As of React 16.3, they have been replaced with UNSAFE_componentWillUpdate() and UNSAFE_componentWillReceiveProps(). Only UNSAFE_componentWillUpdate() and UNSAFE_componentWillReceiveProps() will work starting with React 17.0. UNSAFE_componentWillUpdate() and UNSAFE_componentWillReceiveProps() are now considered to be legacy methods and should not be used in new code.
+
+Removing from the DOM
+This lifecycle event is called when a component is being removed from the DOM:
+
+componentWillUnmount()
+The most commonly used lifecycle events are componentDidMount(), componentWillUnmount(), and componentWillReceiveProps().
+
+Further Research
+componentDidMount() from the React Docs
+componentWillUnmount() from the React Docs
+Component Lifecycles from the React Docs
+
+
+
+
+
+Lifecycle Events
+Lifecycle events are specially named methods in a component. These methods are automatically bound to the component instance, and React will call these methods naturally at certain times during the life of a component.
+
+componentDidMount()
+
+invoked immediately after the component is inserted into the DOM
+
+componentWillUnmount()
+
+invoked immediately before a component is removed from the DOM
+
+getDerivedStateFromProps()
+
+invoked after a component is instantiated as well as when it receives brand new props
+
+shouldComponentUpdate()
+
+invoked when new props are received or state is changed; it tells the component whether it should re-render
+
+componentDidMount()
+
+invoked right after the component is added to the DOM and should be used if you're fetching remote data or doing an Ajax request
+
+
+
+
+
+
+
+
+
+

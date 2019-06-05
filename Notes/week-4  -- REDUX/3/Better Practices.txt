@@ -1,0 +1,50 @@
+/* Create An Action Creator
+ *
+
+ * You need to create an action creator called 'mealCreator' that should:
+ *  
+ - Accept an id
+ *  
+ - Return a Redux action with a 'type' property that has a value of 'CREATE_MEAL'
+ *  
+ - Include the id passed to the action creator
+
+*/
+
+
+
+function mealCreator (todo) 
+{
+
+  return {
+   
+ type: 'CREATE_MEAL',
+  
+  id:todo
+  
+}
+}
+
+
+
+let x = mealCreator(2);
+
+console.log(x);
+
+
+
+What Went Well
+- Your code should have a function called mealCreator
+- The mealCreator function should return an object
+- The mealCreator function should return an object with a type property
+- The mealCreator function should accept an ID argument
+- The mealCreator function should include the ID when called with one
+- The mealCreator function should produce the expected result
+Feedback
+Your answer passed all our tests! Awesome job!
+
+
+
+Summary
+---------
+In this section, we converted our actions to use JavaScript constants instead of strings. We also refactored our .dispatch() calls from passing in unique objects directly to them, to calling special functions that create the action objects - these special functions that create action objects are called Action Creators.
